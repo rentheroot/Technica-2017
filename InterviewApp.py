@@ -122,7 +122,7 @@ def modeSelect (mode2):
 
         #if bad-choice
         else:
-            print("Sorry,I didn't understand that. Please type either 'easy' or 'hard'" + '\n') 
+            print("Sorry,I didn't understand that. Please type either 'easy' or 'hard'" + '\n')
 #--declare variables--#
 gender2 = 0
 mode2 = 0
@@ -176,22 +176,32 @@ accessKey = 'ae905e07e77e4712ab74ebd1caee2f4a'
 # NOTE: Free trial access keys are generated in the westcentralus region, so if you are using
 # a free trial access key, you should not need to change this region.
 uri = 'westus.api.cognitive.microsoft.com'
-path = '/text/analytics/v2.0/languages'
+sentiment_path = '/text/analytics/v2.0/sentiment'
+keyphrase_path = '/text/analytics/v2.0/keyPhrases'
 
-def getDocuments (documents):
-    with open('jsonDocuments.json') as json_data:
+def getDocuments ():
+    with open('jsonDocuments.json', 'r') as json_data:
         documents = json.load(json_data)
         return documents
     
-def GetLanguage (documents):
+def GetLanguage (documents)):
     "Detects the languages for a set of documents and returns the information."
+
+    print ('Please wait a moment for the results to appear.\n')
 
     headers = {'Ocp-Apim-Subscription-Key': accessKey}
     conn = httplib.HTTPSConnection (uri)
-    body = json.dumps (documents)
-    conn.request ("POST", path, body, headers)
-    response = conn.getresponse ()
-    return response.read ()
+    structured_doc = {'documents': [{'id': '1', 'language': 'en', 'text': documents}]}
+    # Get sentiment
+    conn.request ("POST", sentiment_path, structured_doc, headers)
+    response = conn.getresponse().read()
+    sentiment = response['documents'][0]['score']
+    # Get key phrases
+    conn.request("POST", keyphrase_path, structured_doc, headers)
+    keyphrase_response = conn.get_response()
+    keyphrases = keyphrase_response['documents'][0]['keyPhrases']
+     
+    return sentiment, keyphrases
 
 ##documents = { 'documents': [
 ##    { 'id': '1', 'text': 'This is a document written in English.' },
@@ -199,9 +209,221 @@ def GetLanguage (documents):
 ##    { 'id': '3', 'text': '这是一个用中文写的文件' }
 ##]}
 
-def returnResults ():
+def returnResults (question):
     
-    print 'Please wait a moment for the results to appear.\n'
-
-    result = GetLanguage (documents)
+    
     print (json.dumps(json.loads(result), indent=4))
+
+def startUncomfortable():
+    print('Welcome to the Uncomfortable survey\n')
+
+#safeword is john cena
+
+master_record = {}
+    
+def firedFromJob ():
+    # Question string
+    question_str = 'Have you ever been fired from a job? '
+    # Get user input
+    fired = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(fired)
+    master_record['firedFromJob'] = {'question': question_str,
+                                     'answer': fired}
+
+    if ms_response.sentiment > 0.5
+        yourFault()
+    else:
+        believeInGod()
+
+    return
+    
+def yourFault():
+     # Question string
+    question_str = 'Was it your fault that you got fired? '
+    # Get user input
+    fault = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(fault)
+    master_record['yourFault'] = {'question': question_str,
+                                     'answer': fault}
+
+    if ms_response.sentiment > 0.5
+        believeInGod()
+    else:
+        weightOpinion()
+
+    return
+
+def believeInGod ():
+    # Question string
+    question_str = 'to what extend do you believe in god? '
+    # Get user input
+    belief = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(fired)
+    master_record['firedFromJob'] = {'question': question_str,
+                                     'answer': belief}
+
+    if ms_response.sentiment > 0.5
+        alienExistence()
+    else:
+        appearanceOpinion()
+
+    return
+
+
+def alienExistence ():
+     # Question string
+    question_str = 'Do you believe in aliens? '
+    # Get user input
+    aliens = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(aliens)
+    master_record['alienExistence'] = {'question': question_str,
+                                     'answer': aliens}
+
+    if ms_response.sentiment > 0.5
+        smashAlien()
+    else:
+        haremEnding()
+
+    return
+
+def smashAlien ():
+    # Question string
+    question_str = 'Would you smash an alien? '
+    # Get user input
+    smash = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(smash)
+    master_record['smashAlien'] = {'question': question_str,
+                                     'answer': smash}
+
+    if ms_response.sentiment > 0.5
+        wouldSmash()
+    else:
+        wouldNotSmash()
+
+    return
+
+def wouldSmash ():
+    print('whatever youre into im not gonna judge\n')
+
+        accidentallyCalledMom()
+    return
+
+def wouldNotSmash ():
+    print('you have no sense of adventure smh\n')
+
+        accidentallyCalledMom()
+    return
+
+def appearanceOpinion ():
+   accidentallyCalledMom
+
+
+def weightOpinion ():
+    # Question string
+    question_str = 'What is your opinion on your weight? '
+    # Get user input
+    weight = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(weight)
+    master_record['weightOpinion'] = {'question': question_str,
+                                     'answer': weight}
+
+    if ms_response.sentiment > 0.5
+        ratingAppearance()
+    else:
+        beautifulPotato()
+
+    return
+
+def beautifulPotato ():
+    print('you are a beautiful potato\n')
+
+def ratingAppearance ():
+    print('id rate you a 2/10 if i was being generous\n')
+
+#--Pt2--#
+
+def accidentallyCalledMom ():
+    print('Who was the last person you accidently called mom?')
+
+        ratherMom()
+    return
+
+def ratherMom():
+    # Question string
+    question_str = 'Would you rather they be your mom instead of your actual mom? '
+    # Get user input
+    mom = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(mom)
+    master_record['ratherMom'] = {'question': question_str,
+                                     'answer': mom}
+
+    if ms_response.sentiment > 0.5
+        familyDeathReaction()
+    else:
+        lyingtoParents()
+
+    return
+
+def lyingtoParents ():
+    # Question string
+   print('Describe your feelings about the last time you lied to your parents? ')
+   
+        lyingToFriends()
+
+    return
+
+
+def lyingToFriends ();
+    # Question string
+    question_str = 'Do you feel worse about lying to close friends? '
+    # Get user input
+    worse = input(question_str)
+    # Submit use input to MS Cognitive etc. API
+    sentiment, keyphrases = GetLanguage(worse)
+    master_record['lyingToFriends'] = {'question': question_str,
+                                     'answer': worse}
+
+    if ms_response.sentiment > 0.5
+        afraidOfDeath()
+    else:
+        haremEnding()
+
+    return
+
+def haremEnding ():
+   print('So if the time-space continuum warped and you were sent to a parallel dimension where it is customary to walk on your hands and the world was made of glazed donuts, and the only way home was to stop the great Zalief from stealing the Infinity Gem from the King of Trees by using the Cooler of Ancient Legends, how would you successfully disarm the bomb to get the harem ending?')
+
+        destructionOfEarthandGalaxy
+    return
+
+def familyDeathReaction ():
+   print('Describe how your family would feel if you died. ')
+
+        afraidOfDeath()
+
+    return
+
+def afraidOfDeath ():
+  print('are you afraid of death? ')
+
+        destructionOfEarthandGalaxy
+        
+    return
+
+def destructionOfEarthandGalaxy ();
+    print(Briefly discuss the inevitable destruction of our universe as we percieve it. ')
+
+        deepBeans()
+    return
+
+def deepBeans ():
+    print('thats some deep beans my dude\n')
+
+firedFromJob()
