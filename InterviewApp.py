@@ -1,5 +1,6 @@
-
-
+#-- Imports --#
+import http.client, urllib.request, urllib.parse, urllib.error, base64
+import json
 #--------------------Demographics--------------#
 #---Gender---#
 def genderSelect (gender2):
@@ -130,6 +131,7 @@ state2 = 0
 age = 0
 job2 =0
 marriage2 = 0
+documents = 0
 
 #--print gender variable--#
 gender2 = genderSelect(gender2)
@@ -157,3 +159,49 @@ print(marriage2)
 mode2 = modeSelect(mode2)
 print(mode2)
 
+#--Actual Stuff--#
+# **********************************************
+# *** Update or verify the following values. ***
+# **********************************************
+
+# Replace the accessKey string value with your valid access key.
+accessKey = 'ae905e07e77e4712ab74ebd1caee2f4a'
+
+# Replace or verify the region.
+#
+# You must use the same region in your REST API call as you used to obtain your access keys.
+# For example, if you obtained your access keys from the westus region, replace 
+# "westcentralus" in the URI below with "westus".
+#
+# NOTE: Free trial access keys are generated in the westcentralus region, so if you are using
+# a free trial access key, you should not need to change this region.
+uri = 'westus.api.cognitive.microsoft.com'
+path = '/text/analytics/v2.0/languages'
+
+def getDocuments (documents):
+    with open('jsonDocuments.json') as json_data:
+        documents = json.load(json_data)
+        return documents
+    
+def GetLanguage (documents):
+    "Detects the languages for a set of documents and returns the information."
+
+    headers = {'Ocp-Apim-Subscription-Key': accessKey}
+    conn = httplib.HTTPSConnection (uri)
+    body = json.dumps (documents)
+    conn.request ("POST", path, body, headers)
+    response = conn.getresponse ()
+    return response.read ()
+
+##documents = { 'documents': [
+##    { 'id': '1', 'text': 'This is a document written in English.' },
+##    { 'id': '2', 'text': 'Este es un document escrito en Español.' },
+##    { 'id': '3', 'text': '这是一个用中文写的文件' }
+##]}
+
+def returnResults ():
+    
+    print 'Please wait a moment for the results to appear.\n'
+
+    result = GetLanguage (documents)
+    print (json.dumps(json.loads(result), indent=4))
