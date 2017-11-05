@@ -17,8 +17,22 @@ def genderSelect (gender2):
         else:
             print("sorry, I didn't understand that. Please type either 'female', 'male', or 'other'")
 
-    
-                  
+#---Race--#
+def raceSelect (race2):
+    #while good input isn't given
+    while True:
+        race = input("Please select the number that corresponds to your race" + '\n' + "1. American Indian or Alaska Native" + '\n' + "2. Asian" + '\n' + "3. Black or African American" + '\n' +"4. Hispanic or Latino" +'\n' + "5. Native Hawaiian or Other Pacific Islander" + '\n' + "6. White" +'\n') 
+
+        race2 = race.lower()
+
+        #if good input
+        if race2 == "1" or "2" or "3" or "4" or "5" or "6":
+            return race2
+            break
+        #if bad input
+        else:
+            print("sorry, I didn't understand that. Please type a number 1-6")
+            
 #---------------------Which Mode---------------#
 def modeSelect (mode2):
     while True:
@@ -39,14 +53,20 @@ def modeSelect (mode2):
         #if bad-choice
         else:
             print("Sorry,I didn't understand that. Please type either 'easy' or 'hard'") 
-#--declare gender variable--#
+#--declare variables--#
 gender2 = 0
 mode2 = 0
+race2 = 0
 
 #--print gender variable--#
 gender2 = genderSelect(gender2)
 print(gender2)
 
+#--run race select--#
+race2 = raceSelect(race2)
+print(race2)
+
 #--run mode select--#
 mode2 = modeSelect(mode2)
 print(mode2)
+
